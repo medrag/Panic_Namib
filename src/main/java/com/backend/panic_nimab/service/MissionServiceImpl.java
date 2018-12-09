@@ -4,14 +4,10 @@ import com.backend.panic_nimab.model.Equipement;
 import com.backend.panic_nimab.model.Mission;
 import com.backend.panic_nimab.repository.MissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
-import sun.net.www.http.HttpClient;
 
-import java.util.Optional;
+import java.util.Arrays;
 import java.util.Set;
-import java.util.stream.Stream;
 
 @Service
 public class MissionServiceImpl implements MissionService
@@ -32,10 +28,16 @@ public class MissionServiceImpl implements MissionService
     }
 
     @Override
-    public Mission modifierMission(Mission mission, Set<Equipement> equipements)
+    public Mission modifierMission(Mission mission, Equipement[] equipements)
     {
-        mission.setEquipementSet(equipements);
+        mission.setEquipementSet(Arrays.asList(equipements));
         return this.missionRepository.save(mission);
+    }
+
+    @Override
+    public Mission findLastMission()
+    {
+        return this.missionRepository.findLastMission();
     }
 
 }

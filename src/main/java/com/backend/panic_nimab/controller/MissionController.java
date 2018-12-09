@@ -3,10 +3,14 @@ package com.backend.panic_nimab.controller;
 import com.backend.panic_nimab.model.Equipement;
 import com.backend.panic_nimab.model.Mission;
 import com.backend.panic_nimab.service.MissionService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -29,14 +33,21 @@ public class MissionController
     }
 
     @PostMapping(path = "/modifierMission")
-    public @ResponseBody Mission ajouterEquipementMission(@RequestParam Mission mission, @RequestParam Set<Equipement> equipementSet)
+    public @ResponseBody Mission ajouterEquipementMission(@RequestBody String requestBody) throws IOException
     {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(requestBody);
+        Mission mission = objectMapper.convertValue(jsonNode.get("mission"), Mission.class);
+
+        Equipement[] equipementSet = objectMapper.convertValue(jsonNode.get("equipements"), Equipement[].class);
+
         return this.missionService.modifierMission(mission,equipementSet);
     }
 
-    @GetMapping(path = "/getLastMission")
-    public @ResponseBody Mission getLastMission()
+    @GetMapping(path="/lastMission")
+    public @ResponseBody Mission findLastMission()
     {
-        return this.missionService.getLastMission();
+        return this.missionService.findLastMission();
     }
+
 }

@@ -11,6 +11,7 @@ public class Equipement
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private boolean checked;
 
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},mappedBy = "equipementSet")
     private Set<Mission> missionSet = new HashSet<>();
@@ -29,5 +30,13 @@ public class Equipement
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

@@ -1,7 +1,8 @@
 package com.backend.panic_nimab.model;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,7 +20,7 @@ public class Mission
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name="mission_equipements",joinColumns = {@JoinColumn(name = "mission_id")},
     inverseJoinColumns = {@JoinColumn(name = "equipement_id")})
-    private Set<Equipement> equipementSet = new HashSet<>();
+    private List<Equipement> equipementSet = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -61,11 +62,11 @@ public class Mission
         this.dateDepart = dateDepart;
     }
 
-    public Set<Equipement> getEquipementSet() {
+    public List<Equipement> getEquipementSet() {
         return equipementSet;
     }
 
-    public void setEquipementSet(Set<Equipement> equipementSet) {
+    public void setEquipementSet(List<Equipement> equipementSet) {
         this.equipementSet = equipementSet;
     }
 
